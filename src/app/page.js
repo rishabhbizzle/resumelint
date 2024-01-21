@@ -1,30 +1,231 @@
+"use client"
+import { AnimatePresence, motion, useInView } from 'framer-motion';
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
+import axios from "axios";
 import Image from "next/image";
-import Link from "next/link";
+import { toast } from "sonner"
+import { useRef, useState } from "react";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card"
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip"
+import { ArrowBigDownDash, Github, Info, Loader2, PercentCircle, Star } from 'lucide-react';
+import { Badge } from '@/components/ui/badge';
+import { Separator } from '@/components/ui/separator';
+import { Link } from 'react-scroll';
+
 
 export default function Home() {
+  const [loading, setLoading] = useState(false);
+  const [review, setReview] = useState(null);
+  const FADE_DOWN_ANIMATION_VARIANTS = {
+    hidden: { opacity: 0, y: -10 },
+    show: { opacity: 1, y: 0, transition: { type: 'spring' } },
+  };
+  const ref = useRef(null);
+  const isInView = useInView(ref)
+
+  const handleImport = async (event) => {
+    event.preventDefault();
+    setLoading(true);
+    const { resume, jobDesc } = event.target.elements;
+    let formData = new FormData();
+    formData.append("resume", resume.files[0]);
+    formData.append('jobDescription', jobDesc.value);
+    await axios
+      .post(`api/generateReview`, formData)
+      .then((res) => {
+        setReview(res?.data?.data);
+        toast.success("Success", {
+          description: res?.data?.message,
+          variant: "success",
+        })
+      })
+      .catch((error) => {
+        const errorMessage = error?.response?.data?.error
+        toast.error("Error", {
+          description: errorMessage,
+          variant: "destructive",
+        })
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  }
+
+
   return (
-    <section className="w-full py-12 md:py-24 lg:py-32 xl:py-48">
-      <div className="container px-4 md:px-6">
-        <div className="flex flex-col items-center space-y-4 text-center">
-          <div className="space-y-2">
-            <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl lg:text-6xl/none">
-              Revolutionize Your Hiring Process with AI
-            </h1>
-            <p className="mx-auto max-w-[700px] text-gray-500 md:text-xl dark:text-gray-400">
-              Effortlessly Source, Screen, and Select Top Talent
-            </p>
-          </div>
-          <div className="space-x-4">
-            <Link
-              className="inline-flex h-10 items-center justify-center rounded-md bg-gray-900 px-8 text-sm font-medium text-gray-50 shadow transition-colors hover:bg-gray-900/90 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-gray-950 disabled:pointer-events-none disabled:opacity-50 dark:bg-gray-50 dark:text-gray-900 dark:hover:bg-gray-50/90 dark:focus-visible:ring-gray-300"
-              href="#"
+    <>
+      <header className="w-full flex justify-between items-center shadow-sm py-4 px-8">
+        <h1 className="text-3xl font-bold">RL</h1>
+        <Button ><Github className='w-5 h-5 mr-2' />Github</Button>
+      </header>
+
+      {/* hero section */}
+
+      <div className='p-8 mb-20'>
+        <div className="min-h-[90vh] flex flex-col items-center justify-center">
+          <div className="flex flex-col items-center">
+            <motion.div
+              initial="hidden"
+              className="max-w-2xl"
+              ref={ref}
+              animate={isInView ? 'show' : 'hidden'}
+              viewport={{ once: true }}
+              variants={{
+                hidden: {},
+                show: {
+                  transition: {
+                    staggerChildren: 0.15,
+                  },
+                },
+              }}
             >
-              Get Started
-            </Link>
+              <motion.h1
+                variants={FADE_DOWN_ANIMATION_VARIANTS}
+                className="space-x-4 text-5xl font-bold tracking-tight sm:text-7xl"
+              >
+                <div className="animate-pulse bg-gradient-to-r from-purple-700 via-violet-600 to-pink-500 bg-clip-text text-transparent whitespace-nowrap animate-background-pan">
+                  ResumeLint AI
+                </div>
+              </motion.h1>
+              <motion.p
+                variants={FADE_DOWN_ANIMATION_VARIANTS}
+                className="space-x-4 text-2xl font-bold tracking-tight sm:text-4xl mt-3">Where Skills Align with Opportunities.
+              </motion.p>
+
+              <motion.p
+                variants={FADE_DOWN_ANIMATION_VARIANTS}
+                className="mt-6 text-base sm:text-lg leading-8 "
+              >
+                Our AI-driven platform meticulously analyzes job descriptions and let you know if the resume is perfect match or not. Elevate your job search, optimize your opportunities, and embark on a seamless path to career success.
+              </motion.p>
+
+              <motion.div
+                variants={FADE_DOWN_ANIMATION_VARIANTS}
+                className="mt-10 flex items-center justify-center gap-x-6 "
+              >
+                <Link to="test" smooth={true} duration={500}>
+                  <Button variant="secondary">
+                    <ArrowBigDownDash className='w-5 h-5 mr-2' />
+                    Try Now
+                  </Button>
+                </Link>
+              </motion.div>
+            </motion.div>
           </div>
         </div>
+
+        {/* Import section */}
+
+        <div className="grid w-full items-center gap-1.5 sm:p-8" id='test'>
+          <Card>
+            <CardHeader>
+            </CardHeader>
+            <CardContent>
+              <form onSubmit={handleImport} className='flex flex-col gap-5'>
+                <div>
+                  <Label htmlFor="resume">Job Description</Label>
+                  <Textarea id="jobDesc" name="jobDesc" required />
+                </div>
+                <div>
+                  <Label htmlFor="resume">Resume</Label>
+                  <Input required id="resume" name="resume" accept="application/pdf" type="file" />
+                </div>
+                <Button type="submit" disabled={loading}>
+                  {loading && (
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  )}
+                  Analyse Resume</Button>
+              </form>
+            </CardContent>
+          </Card>
+        </div>
+
+        {/* Review section */}
+
+        {review &&
+          <div className='w-full mt-8 sm:p-8'>
+            <Card>
+              <CardHeader>
+                <CardTitle className="text-3xl font-extrabold">Review</CardTitle>
+                <CardDescription className='flex gap-2 sm:text-lg font-medium py-5'><Star className='w-20 h-10 mr-2' />{review?.ProfileSummary}</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className='flex flex-col sm:flex-row sm:justify-between gap-2 '>
+                  <div className='w-full flex flex-col gap-5'>
+                    <Card className=''>
+                      <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                        <CardTitle className="text-lg font-bold">
+                          Match
+                        </CardTitle>
+                        <PercentCircle className="h-4 w-4 text-muted-foreground" />
+                      </CardHeader>
+                      <CardContent>
+                        <div className="text-2xl font-bold">
+                          {review?.JdMatch}
+                        </div>
+                        <p className="text-xs text-muted-foreground">
+                          Match Percentage
+                        </p>
+                      </CardContent>
+                    </Card>
+                    <Card className='w-full'>
+                      <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                        <CardTitle className="text-lg font-bold">
+                          Missing Keywords
+                        </CardTitle>
+                      </CardHeader>
+                      <CardContent>
+                        {review?.MissingKeywords?.map((item, index) => (
+                          <Badge key={index} className="mr-2 mt-2 sm:text-sm">
+                            {item}
+                          </Badge>
+                        ))}
+                      </CardContent>
+                    </Card>
+                  </div>
+                  <div className='w-full'  >
+                    <Card className='w-full'>
+                      <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                        <CardTitle className="text-lg font-bold">
+                          Improvements
+                        </CardTitle>
+                      </CardHeader>
+                      <CardContent className='flex flex-col gap-2'>
+                        {review?.Improvements?.map((item, index) => (
+                          <p key={index} className='font-medium'>
+                            - {item}
+                          </p>
+                        ))}
+                      </CardContent>
+                    </Card>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+        }
       </div>
-    </section>
+
+      {/* footer section */}
+
+      <footer className="flex items-center justify-center p-6 bg-gray-800 text-white">
+        <p>© 2024 ResumeLint AI. All rights reserved.</p>
+      </footer>
+    </>
   );
 }

@@ -20,14 +20,12 @@ export const POST = async (req, res) => {
         const textContent = data.text;
         const genAI = new GoogleGenerativeAI(process.env.API_KEY);
 
-
         let prompt = `
-        Hey Act Like a skilled or very experience ATS(Application Tracking System)
-        with a deep understanding of tech field,software engineering,data science ,data analyst
-        and big data engineer. Your task is to evaluate the resume based on the given job description.
-        You must consider the job market is very competitive and you should provide 
-        best assistance for improving the resumes. Assign the percentage Matching based 
-        on Job description and the missing keywords with high accuracy and suggest what improvements can be made in the resume so that it can be shortlisted for the interview.
+        Hey, act like a highly skilled & very experienced ATS(Application Tracking System).
+        Analyze the job description given below and extract the suitable roles and consider yourself having with a very deep understanding of these suitable roles.
+        Your task is to evaluate the resume based on the given job description.
+        You must consider that the job market is very competitive and you should provide best assistance for improving the resumes.
+        Based on job description, assign a high accuracy percentage matching and the missing keywords with high accuracy and suggest what improvements can be made in the resume so that it can be shortlisted for the interview.
         Resume:{${textContent}}
         JobDescription:{${jd}}
         I want the response as a single string having the structure: {"JdMatch":"%", "MissingKeywords":[], "ProfileSummary":"", "Improvements":[]}
@@ -45,6 +43,7 @@ export const POST = async (req, res) => {
             message: "Review generated successfully"
         }, { status: 200 })
     } catch (error) {
-        return NextResponse.json({ error: error.message }, { status: 500 })
+        console.log(error);
+        return NextResponse.json({ error: "Servers are busy. Please try again" }, { status: 500 })
     }
 }
