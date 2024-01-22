@@ -3,8 +3,6 @@ import { NextResponse } from "next/server";
 import PdfParse from "pdf-parse";
 import OpenAI from 'openai';
 
-export const runtime = 'edge';
-
 
 export const POST = async (req, res) => {
     try {
