@@ -16,6 +16,15 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
 import { ArrowBigDownDash, Github, Info, Loader2, PercentCircle, Star } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { Link as ScrollLink } from 'react-scroll';
@@ -35,10 +44,11 @@ export default function Home() {
   const handleImport = async (event) => {
     event.preventDefault();
     setLoading(true);
-    const { resume, jobDesc } = event.target.elements;
+    const { resume, jobDesc, model } = event.target.elements;
     let formData = new FormData();
     formData.append("resume", resume.files[0]);
     formData.append('jobDescription', jobDesc.value);
+    formData.append('model', model.value);
     await axios
       .post(`api/generateReview`, formData)
       .then((res) => {
@@ -52,7 +62,6 @@ export default function Home() {
         const errorMessage = error?.response?.data?.error
         toast.error("Error", {
           description: errorMessage,
-          variant: "destructive",
         })
       })
       .finally(() => {
@@ -135,11 +144,25 @@ export default function Home() {
               <form onSubmit={handleImport} className='flex flex-col gap-5'>
                 <div>
                   <Label htmlFor="resume">Job Description</Label>
-                  <Textarea id="jobDesc" name="jobDesc" required minLength={100} />
+                  <Textarea rows="10" id="jobDesc" name="jobDesc" required minLength={100} />
                 </div>
-                <div>
-                  <Label htmlFor="resume">Resume</Label>
-                  <Input required id="resume" name="resume" accept="application/pdf" type="file" />
+                <div className='flex flex-col sm:flex-row justify-between items-end gap-5'>
+                  <div className='w-full'>
+                    <Label htmlFor="resume">Resume</Label>
+                    <Input required id="resume" name="resume" accept="application/pdf" type="file" />
+                  </div>
+                  <div className='w-full'>
+                    <Label htmlFor="model">Reviewer</Label>
+                    <Select name='model' id='model' required defaultValue='gemini-pro'>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Select a Reviewer" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="gemini-pro">Gojo (recommended)</SelectItem>
+                        <SelectItem value="gpt">Sukuna</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
                 </div>
                 <Button type="submit" disabled={loading}>
                   {loading && (
