@@ -5,9 +5,6 @@ import OpenAI from 'openai';
 
 export const runtime = 'edge';
 
-export const config = {
-    runtime: 'edge',
-  }
 
 export const POST = async (req, res) => {
     try {
