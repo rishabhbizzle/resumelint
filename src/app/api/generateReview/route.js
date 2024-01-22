@@ -65,6 +65,6 @@ export const POST = async (req, res) => {
 
     } catch (error) {
         console.log(error);
-        return NextResponse.json({ error: "Servers are busy. Please select different reviewer and try again" }, { status: 500 })
+        return NextResponse.json({ error: "Servers are busy. Please select different reviewer and try again", message: error }, { status: 500 })
     }
 }
