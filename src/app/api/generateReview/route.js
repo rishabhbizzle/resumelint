@@ -53,7 +53,7 @@ export const POST = async (req, res) => {
             const completion = await openai.chat.completions.create({
                 messages: [{ role: "system", content: "You are a highly skilled & very experienced ATS (Application Tracking System) which companies use for filtering out candidates who apply for jobs. You have a deep knowledge of most of the popular job roles in the market. Evaluate the resume based on the given job description. You must consider that the job market is very competitive and you should provide best assistance for improving the resumes. Based on job description and considering the resume provided, Your task step by step is: Step-1: Assign a very high accuracy percentage matching of resume and job description. Step-2: Extract the missing keywords from resume based on job description. Step-3: Suggest improvements that can be made in the resume so that it can be shortlisted for that particular job." }],
                 messages: [{ role: "user", content: prompt }],
-                model: "gpt-3.5-turbo",
+                model: "gpt-3.5-turbo-1106",
             });
             resultsObj = JSON.parse(completion?.choices[0]?.message?.content);
         }
