@@ -1,11 +1,11 @@
 "use client"
+
 import { AnimatePresence, motion, useInView } from 'framer-motion';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import axios from "axios";
-import Image from "next/image";
 import { toast } from "sonner"
 import { useRef, useState } from "react";
 import {
@@ -16,16 +16,10 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/ui/tooltip"
 import { ArrowBigDownDash, Github, Info, Loader2, PercentCircle, Star } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
-import { Separator } from '@/components/ui/separator';
-import { Link } from 'react-scroll';
+import { Link as ScrollLink } from 'react-scroll';
+import Link from 'next/link';
 
 
 export default function Home() {
@@ -71,7 +65,9 @@ export default function Home() {
     <>
       <header className="w-full flex justify-between items-center shadow-sm py-4 px-8">
         <h1 className="text-3xl font-bold">RL</h1>
-        <Button ><Github className='w-5 h-5 mr-2' />Github</Button>
+        <Link href='https://github.com/rishabhbizzle/resumelint'>
+          <Button ><Github className='w-5 h-5 mr-2' />Github</Button>
+        </Link>
       </header>
 
       {/* hero section */}
@@ -99,7 +95,7 @@ export default function Home() {
                 className="space-x-4 text-5xl font-bold tracking-tight sm:text-7xl"
               >
                 <div className="animate-pulse bg-gradient-to-r from-purple-700 via-violet-600 to-pink-500 bg-clip-text text-transparent whitespace-nowrap animate-background-pan">
-                  ResumeLint AI
+                  ResumeLint
                 </div>
               </motion.h1>
               <motion.p
@@ -118,12 +114,12 @@ export default function Home() {
                 variants={FADE_DOWN_ANIMATION_VARIANTS}
                 className="mt-10 flex items-center justify-center gap-x-6 "
               >
-                <Link to="test" smooth={true} duration={500}>
+                <ScrollLink to="test" smooth={true} duration={500}>
                   <Button variant="secondary">
                     <ArrowBigDownDash className='w-5 h-5 mr-2' />
                     Try Now
                   </Button>
-                </Link>
+                </ScrollLink>
               </motion.div>
             </motion.div>
           </div>
@@ -224,7 +220,7 @@ export default function Home() {
       {/* footer section */}
 
       <footer className="flex items-center justify-center p-6 bg-gray-800 text-white">
-        <p>© 2024 ResumeLint AI. All rights reserved.</p>
+        <p>© 2024 ResumeLint. All rights reserved.</p>
       </footer>
     </>
   );
