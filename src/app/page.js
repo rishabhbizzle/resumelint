@@ -135,7 +135,7 @@ export default function Home() {
               <form onSubmit={handleImport} className='flex flex-col gap-5'>
                 <div>
                   <Label htmlFor="resume">Job Description</Label>
-                  <Textarea id="jobDesc" name="jobDesc" required />
+                  <Textarea id="jobDesc" name="jobDesc" required minLength={100} />
                 </div>
                 <div>
                   <Label htmlFor="resume">Resume</Label>
