@@ -8,7 +8,7 @@ const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
   title: "ResumeLint",
-  description: "ResumeLint is a smart ATS resume reviewer powered by Google Gemini Pro that helps you get past the ATS by giving you a detailed analysis of your resume and job description.",
+  description: "ResumeLint is a smart ATS resume reviewer powered by Google Gemini Pro AI that helps you get past the ATS by giving you a detailed analysis of your resume and job description.",
 };
 
 export default function RootLayout({ children }) {

@@ -94,7 +94,7 @@ export default function Home() {
                 variants={FADE_DOWN_ANIMATION_VARIANTS}
                 className="space-x-4 text-5xl font-bold tracking-tight sm:text-7xl"
               >
-                <div className="animate-pulse bg-gradient-to-r from-purple-700 via-violet-600 to-pink-500 bg-clip-text text-transparent whitespace-nowrap animate-background-pan">
+                <div className="bg-gradient-to-r from-purple-700 via-violet-600 to-pink-500 bg-clip-text text-transparent whitespace-nowrap animate-background-pan">
                   ResumeLint
                 </div>
               </motion.h1>
