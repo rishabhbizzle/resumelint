@@ -33,7 +33,14 @@ import Link from 'next/link';
 
 export default function Home() {
   const [loading, setLoading] = useState(false);
-  const [review, setReview] = useState(null);
+  const [review, setReview] = useState({
+    "JdMatch": "60%",
+    "MissingKeywords": [
+    ],
+    "ProfileSummary": "The candidate has experience as a Full Stack Developer with a strong background in React.js, Node.js, MongoDB, and AWS. They have also worked on developing e-commerce admin portals and have experience with UI/UX design and development. However, they lack experience with Bitcoin, Web3, Defi, and Crypto Wallets which are important for the role.",
+    "Improvements": [
+    ]
+});
   const FADE_DOWN_ANIMATION_VARIANTS = {
     hidden: { opacity: 0, y: -10 },
     show: { opacity: 1, y: 0, transition: { type: 'spring' } },
@@ -158,8 +165,8 @@ export default function Home() {
                         <SelectValue placeholder="Select a Reviewer" />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="gemini-pro">Gojo (recommended)</SelectItem>
-                        <SelectItem value="gpt">Sukuna</SelectItem>
+                        <SelectItem value="gemini-pro">Gemini Pro</SelectItem>
+                        <SelectItem value="gpt">GPT</SelectItem>
                       </SelectContent>
                     </Select>
                   </div>
@@ -197,9 +204,9 @@ export default function Home() {
                         <div className="text-2xl font-bold">
                           {review?.JdMatch}
                         </div>
-                        <p className="text-xs text-muted-foreground">
+                        {/* <p className="text-xs text-muted-foreground">
                           Match Percentage
-                        </p>
+                        </p> */}
                       </CardContent>
                     </Card>
                     <Card className='w-full'>
@@ -209,11 +216,16 @@ export default function Home() {
                         </CardTitle>
                       </CardHeader>
                       <CardContent>
-                        {review?.MissingKeywords?.map((item, index) => (
+                        {review?.MissingKeywords?.length > 0 ? review?.MissingKeywords?.map((item, index) => (
                           <Badge key={index} className="mr-2 mt-2 sm:text-sm">
                             {item}
                           </Badge>
-                        ))}
+                        ))
+                          :
+                          <p className='font-medium'>
+                            - No missing keywords 🎉
+                          </p>
+                        }
                       </CardContent>
                     </Card>
                   </div>
@@ -225,11 +237,16 @@ export default function Home() {
                         </CardTitle>
                       </CardHeader>
                       <CardContent className='flex flex-col gap-2'>
-                        {review?.Improvements?.map((item, index) => (
+                        {review?.Improvements?.length > 0 ? review?.Improvements?.map((item, index) => (
                           <p key={index} className='font-medium'>
                             - {item}
                           </p>
-                        ))}
+                        ))
+                          :
+                          <p className='font-medium'>
+                            - No improvements required 🎉
+                          </p>
+                        }
                       </CardContent>
                     </Card>
                   </div>
