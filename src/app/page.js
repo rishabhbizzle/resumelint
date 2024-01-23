@@ -33,14 +33,7 @@ import Link from 'next/link';
 
 export default function Home() {
   const [loading, setLoading] = useState(false);
-  const [review, setReview] = useState({
-    "JdMatch": "60%",
-    "MissingKeywords": [
-    ],
-    "ProfileSummary": "The candidate has experience as a Full Stack Developer with a strong background in React.js, Node.js, MongoDB, and AWS. They have also worked on developing e-commerce admin portals and have experience with UI/UX design and development. However, they lack experience with Bitcoin, Web3, Defi, and Crypto Wallets which are important for the role.",
-    "Improvements": [
-    ]
-});
+  const [review, setReview] = useState(null);
   const FADE_DOWN_ANIMATION_VARIANTS = {
     hidden: { opacity: 0, y: -10 },
     show: { opacity: 1, y: 0, transition: { type: 'spring' } },
