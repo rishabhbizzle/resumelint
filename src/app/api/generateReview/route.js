@@ -19,9 +19,7 @@ export const POST = async (req, res) => {
 
         const buffer = await file.arrayBuffer();
         const data = await PdfParse(buffer);
-        const textContent = data.text;
-
-        console.log("Resume Text: ", textContent);
+        const textContent = data?.text;
         let resultsObj = {};
         if (model === 'gemini-pro') {
             console.log("Using Gemini Pro");
@@ -33,13 +31,12 @@ export const POST = async (req, res) => {
         Based on job description and considering the resume provided, assign a high accuracy percentage matching and the missing keywords with high accuracy and suggest what improvements can be made in the resume so that it can be shortlisted for the interview.
         Resume:{${textContent}}
         JobDescription:{${jd}}
-        I want the response as a single string having the structure: {"JdMatch":"%", "MissingKeywords":[], "ProfileSummary":"", "Improvements":[]}
+        Evaluate and if you think the job description is no where related or close to the resume content then return the response as a single string {"JdMatch":"0%", "MissingKeywords":[], "ProfileSummary":"", "Improvements":[]} else I want the response as a single string having the structure: {"JdMatch":"%", "MissingKeywords":[], "ProfileSummary":"", "Improvements":[]} where "JdMatch" should be a percentage value, "MissingKeywords" should be a list of unique keywords, "ProfileSummary" should be a string and "Improvements" should be a list of strings.;
         `;
             const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
             const modelDetails = genAI.getGenerativeModel({ model: 'gemini-pro' })
-            const result = await modelDetails.generateContent(prompt);
-            const response = result.response;
-            const text = response.text();
+            const result = await modelDetails?.generateContent(prompt);
+            const text = result?.response?.text();
             resultsObj = JSON.parse(text);
         } else {
             console.log("Using GPT-3");
@@ -47,9 +44,9 @@ export const POST = async (req, res) => {
                 apiKey: process.env.GPT_API_KEY
             });
             let prompt = `
-            Resume:"${textContent}"
-            Job Description:"${jd}"
-            I want the response as a single string having the structure: {"JdMatch":"%", "MissingKeywords":[], "ProfileSummary":"", "Improvements":[]} where "JdMatch" should be a percentage value, "MissingKeywords" should be a list of keywords, "ProfileSummary" should be a string and "Improvements" should be a list of strings. Everthing here should be from your percepective`;
+            Resume:"""${textContent}"""
+            Job Description:"""${jd}"""
+            Evaluate the resume. If you think the job description is no where related or close to the resume content then return the response as a single string {"JdMatch":"0%", "MissingKeywords":[], "ProfileSummary":"", "Improvements":[]} else I want the response as a single string having the structure: {"JdMatch":"%", "MissingKeywords":[], "ProfileSummary":"", "Improvements":[]} where "JdMatch" should be a percentage value, "MissingKeywords" should be a list of unique keywords, "ProfileSummary" should be a string and "Improvements" should be a list of strings. Everthing here should be from your percepective`;
 
             const completion = await openai.chat.completions.create({
                 messages: [{ role: "system", content: "You are a highly skilled & very experienced ATS (Application Tracking System) which companies use for filtering out candidates who apply for jobs. You have a deep knowledge of most of the popular job roles in the market. Evaluate the resume based on the given job description. You must consider that the job market is very competitive and you should provide best assistance for improving the resumes. Based on job description and considering the resume provided, Your task step by step is: Step-1: Assign a very high accuracy percentage matching of resume and job description. Step-2: Extract the missing keywords from resume based on job description. Step-3: Suggest improvements that can be made in the resume so that it can be shortlisted for that particular job." }],
