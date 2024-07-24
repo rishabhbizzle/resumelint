@@ -48,7 +48,7 @@ export default function Home() {
     let formData = new FormData();
     formData.append("resume", resume.files[0]);
     formData.append('jobDescription', jobDesc.value);
-    formData.append('model', model.value);
+    formData.append('model', 'gemini-pro');
     await axios
       .post(`api/generateReview`, formData)
       .then((res) => {
@@ -151,7 +151,7 @@ export default function Home() {
                     <Label htmlFor="resume">Resume</Label>
                     <Input required id="resume" name="resume" accept="application/pdf" type="file" />
                   </div>
-                  <div className='w-full'>
+                  {/* <div className='w-full'>
                     <Label htmlFor="model">Reviewer</Label>
                     <Select name='model' id='model' required defaultValue='gemini-pro'>
                       <SelectTrigger>
@@ -162,7 +162,7 @@ export default function Home() {
                         <SelectItem value="gpt">GPT</SelectItem>
                       </SelectContent>
                     </Select>
-                  </div>
+                  </div> */}
                 </div>
                 <Button type="submit" disabled={loading}>
                   {loading && (
