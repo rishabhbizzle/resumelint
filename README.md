@@ -1,36 +1,29 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+## ResumeLint - Your Ultimate Resume Enhancer! 📄✨
 
-## Getting Started
+![Screenshot 2024-01-25 123651](https://github.com/rishabhbizzle/resumelint/assets/100997409/07ed43c2-1cca-4064-b832-ee6a80ac96b7)
 
-First, run the development server:
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### 🔍 Feature Highlights:
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+Tailored AI Analysis: Choose between Gemini Pro or GPT models to meticulously evaluate your resume against any job description. Get a comprehensive overview of how well you match the position!
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+Match Percentage: Instantly receive a match percentage that reflects how closely your resume aligns with the job requirements. 🎯
 
-## Learn More
+Keyword Precision: Uncover missing keywords crucial for the job. ResumeLint identifies the key elements you need to amplify your chances of landing that dream job. 🚀
 
-To learn more about Next.js, take a look at the following resources:
+Personalized Suggestions: Receive detailed suggestions for refining your resume based on the job description. Elevate your CV with insights tailored just for you! 📝💡
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+User-Friendly NextJS Interface: Seamlessly navigate through the app with a sleek and intuitive design. No sign up needed. 🌐💼
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+### 👩‍💻 How it Works:
 
-## Deploy on Vercel
+Input the job description and your resume.
+Select the AI model (Gemini Pro or GPT) for analysis.
+Receive a detailed report with match percentage, missing keywords, and personalized suggestions.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### 🚀 Why ResumeLint?
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+Empower your job applications with data-driven insights.
+Save time and effort in tailoring your resume for each application.
+Stay ahead in the competitive job market with cutting-edge AI technology.
